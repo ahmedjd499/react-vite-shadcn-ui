@@ -13,6 +13,9 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { createUser } from "@/api/userApi"
+import toast, { Toaster } from "react-hot-toast"
+import PasswordInput from "@/components/ui/PasswordInput"
 
 const formSchema = z.object({
   firstname: z.string().min(2, {
@@ -26,7 +29,7 @@ const formSchema = z.object({
   .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter." })
   .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter." })
   .regex(/[0-9]/, { message: "Password must contain at least one number." })
-  .regex(/[^a-zA-Z0-9]/, { message: "Password must contain at least one special character." }),
+  .regex(/[.!@#%^&*)(+=._-]/, { message: "Password must contain at least one special character." }),
 })
 
 export default function ProfileForm() {
@@ -41,12 +44,33 @@ export default function ProfileForm() {
   })
 
   const onSubmit = (data) => {
-    console.log(data)
-  }
+    const myPromise = createUser(data);
+
+    toast.promise(myPromise, {
+        loading: 'Loading',
+        duration: 5000,
+        success: (result) => {
+            if(result.status==200 && result.data.code==2)
+            form.reset()    
+            return result.data.message;
+
+        },
+        error: (error) => {
+            if(error.response.data.code ==5 ) form.setError("email", {
+                shouldFocus: true,message : error.response.data.message
+            })
+            return error.response.data.message || 'Error when creating user';
+        }
+    });
+};
 
   return (
   
     <div className="flex w-full max-w-md items-center border justify-center  rounded  p-5">
+    <Toaster
+  position="top-center"
+  reverseOrder={true}
+/>
     <div className="w-full max-w-md space-y-6">
       <div className="space-y-2 text-left">
         <h1 className="text-3xl font-bold">Sign Up</h1>
@@ -113,7 +137,7 @@ export default function ProfileForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="Choose a password..." {...field} />
+              <PasswordInput field={field}  />
               </FormControl>
              
               <FormMessage />

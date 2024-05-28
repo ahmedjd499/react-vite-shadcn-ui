@@ -1,17 +1,19 @@
-import { CarouselDemo } from "./components/demo/CarouselDemo"
-import { Button } from "./components/ui/button"
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Signup from "./pages/Signup";
+import { ThemeProvider } from "./components/theme-provider";
+import { ModeToggle } from "./components/mode-toggle";
 
 function App() {
-
   return (
-    <>
-    <div className="px-20">
-
-    <Button>hello my friend </Button>
-    <CarouselDemo ></CarouselDemo>
-    </div>
-    </>
-  )
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <ModeToggle ></ModeToggle>
+      <BrowserRouter>
+        <Routes>
+          <Route Component={Signup} path="signup" />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;

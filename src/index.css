@@ -74,3 +74,9 @@
       @apply bg-background text-foreground;
     }
   }
+
+  body{
+    display: grid;
+    place-items: center;
+    min-height: 100dvh;
+  }

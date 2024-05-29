@@ -16,7 +16,7 @@ import { createUser } from "@/api/userApi";
 import toast, { Toaster } from "react-hot-toast";
 import PasswordInput from "@/components/ui/PasswordInput";
 import { LineWithText } from "@/components/component/line-with-text";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SquarePen } from "lucide-react";
 
 const formSchema = z.object({
@@ -43,6 +43,8 @@ const formSchema = z.object({
 });
 
 export default function Signup() {
+  const navigate = useNavigate();
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -60,8 +62,14 @@ export default function Signup() {
       loading: "Loading",
       duration: 5000,
       success: (result) => {
-        if (result.status == 201 && result.data.code == 2) form.reset();
-        return result.data.message;
+        if (result.status == 201 && result.data.code == 2)
+        {
+          navigate("/login");
+
+          form.reset();
+          return result.data.message;
+        
+        }
       },
       error: (error) => {
         if (error.response.data.code == 5)

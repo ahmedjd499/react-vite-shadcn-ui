@@ -79,7 +79,7 @@ export default function Login() {
                     <FormLabel>Email </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Enter your email name..."
+                        placeholder="Enter your email..."
                         {...field}
                       />
                     </FormControl>

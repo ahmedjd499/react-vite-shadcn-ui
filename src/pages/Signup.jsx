@@ -83,7 +83,8 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex w-full max-w-md items-center border justify-center  rounded  p-5">
+    <div className="w-full h-[90vh] grid ">
+    <div className="flex w-full max-w-md items-center border justify-center  rounded  p-5 m-auto">
       <Toaster position="top-center" reverseOrder={true} />
       <div className="w-full max-w-md space-y-6">
         <div className="space-y-2 text-left">
@@ -170,6 +171,21 @@ export default function Signup() {
                 )}
               />
             </div>
+            <div className="flex items-center space-x-6 p-3 border rounded" >
+            <div className="shrink-0">
+            <img className="h-16 w-16 object-cover rounded-full" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1361&q=80" alt="Current profile photo" />
+          </div>
+          <label className="block">
+            <span className="sr-only">Choose profile photo</span>
+            <input type="file" className="block w-full text-sm text-slate-500
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-full file:border-0
+              file:text-sm file:font-semibold
+              file:bg-violet-50 file:text-violet-700
+              hover:file:bg-violet-100
+            "/>
+          </label>
+            </div>
             <Button className="w-full flex gap-2" type="submit">
             <SquarePen size={16} />
               Sign Up
@@ -180,6 +196,7 @@ export default function Signup() {
           </form>
         </Form>
       </div>
+    </div>
     </div>
   );
 }

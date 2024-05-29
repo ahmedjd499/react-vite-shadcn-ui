@@ -56,7 +56,9 @@ export default function Login() {
   };
 
   return (
-    <div className="flex w-full max-w-md items-center border justify-center  rounded  p-5">
+    <div className="w-full h-[90vh] grid">
+
+    <div className="flex w-full max-w-md items-center border justify-center  rounded  p-5 m-auto">
       <Toaster position="top-center" reverseOrder={true} />
       <div className="w-full max-w-md space-y-6">
         <div className="space-y-2 text-left">
@@ -114,6 +116,7 @@ export default function Login() {
           </form>
         </Form>
       </div>
+    </div>
     </div>
   );
 }

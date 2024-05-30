@@ -17,7 +17,7 @@ export function Landing() {
 
           </span>
           <Link
-              className={`${buttonVariants({ variant: "secondary" })} w-full`}
+              className={`${buttonVariants({ variant: "default" })} w-full`}
               to="/signup"
             >
               Create an account

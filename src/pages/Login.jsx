@@ -14,26 +14,14 @@ import { Input } from "@/components/ui/input";
 import toast, { Toaster } from "react-hot-toast";
 import PasswordInput from "@/components/ui/PasswordInput";
 import { logInUser } from "@/api/userApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LineWithText } from "@/components/component/line-with-text";
 import { LogIn } from "lucide-react";
-import { createContext, useContext } from "react";
+import { useUserStore } from "@/store/User";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
-  password: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters." }),
-});
-
-const userContext = createContext({
-  id: "",
-  firstname: "",
-  lastname: "",
-  email: "",
-  password: "",
-  createdAt: "",
-  updatedAt: "",
+  password: z.string().min(6, { message: "Password must be at least 6 characters." }),
 });
 
 export default function Login() {
@@ -45,6 +33,9 @@ export default function Login() {
     },
   });
 
+  const addUser = useUserStore((state) => state.addUser);
+
+   const navigate=useNavigate()
   const onSubmit = (data) => {
     const myPromise = logInUser(data);
 
@@ -52,23 +43,30 @@ export default function Login() {
       loading: "Loading",
       duration: 5000,
       success: (result) => {
-        if (result.status == 200 && result.data.code == 1) form.reset();
-        if (result.data.token)
+        if (result.status === 200 && result.data.code === 1) {
+          form.reset();
+        }
+        if (result.data.token) {
           sessionStorage.setItem("token", result.data.token);
-        if (result.data.user)
+        }
+        if (result.data.user) {
           sessionStorage.setItem("user", JSON.stringify(result.data.user));
+          addUser(result.data.user);
+          navigate("/main/TODOS")
+        }
 
         return result.data.message;
       },
       error: (error) => {
-        return error.response.data.message || "Error when creating user";
+        console.log(error);
+        return error.response?.data.message || "Error when creating user";
       },
     });
   };
 
   return (
     <div className="w-full h-[90vh] grid">
-      <div className="flex w-full max-w-md items-center border justify-center  rounded  p-5 m-auto">
+      <div className="flex w-full max-w-md items-center border justify-center rounded p-5 m-auto">
         <Toaster position="top-center" reverseOrder={true} />
         <div className="w-full max-w-md space-y-6">
           <div className="space-y-2 text-left">
@@ -90,7 +88,6 @@ export default function Login() {
                       <FormControl>
                         <Input placeholder="Enter your email..." {...field} />
                       </FormControl>
-
                       <FormMessage />
                     </FormItem>
                   )}
@@ -106,13 +103,12 @@ export default function Login() {
                       <FormControl>
                         <PasswordInput field={field} />
                       </FormControl>
-
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
-              <Button className="w-full flex gap-2 " type="submit">
+              <Button className="w-full flex gap-2" type="submit">
                 <LogIn size={16} />
                 Log In
               </Button>

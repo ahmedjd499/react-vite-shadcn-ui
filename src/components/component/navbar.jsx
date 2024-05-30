@@ -18,8 +18,7 @@ export function Navbar() {
         <MountainIcon className="h-6 w-6 mr-2" />
         <span className="text-lg font-bold">Acme Inc</span>
       </Link>
-      {
-          user &&
+     
         <div className="relative md:hidden">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -57,7 +56,7 @@ export function Navbar() {
           </DropdownMenu>
         </div>
       
-&&
+
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
           <Link className="hover:underline underline-offset-4 flex items-center" to="/">
             <HomeIcon className="mr-2 h-4 w-4" />
@@ -76,11 +75,10 @@ export function Navbar() {
             Contact
           </Link>
         </nav>
-      }
+    
       </div>
       <div className="flex items-center gap-4">
-      {
-        user &&
+   
         <form className="flex-1 max-w-md">
           <div className="relative">
             <SearchIcon
@@ -91,10 +89,10 @@ export function Navbar() {
               type="search" />
           </div>
         </form>
-      }
+     
         <div className="flex items-center gap-4">
-        {
-          user ?
+       
+    
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
             <Avatar className=" h-8 w-8">
@@ -115,22 +113,8 @@ export function Navbar() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          :
-          <div className="flex space-x-4 items-center">
-          <Link className={`${buttonVariants({ variant: "secondary" })} w-full`} to="/login">Log in</Link>
-          <span>
-           OR
-
-          </span>
-          <Link
-              className={`${buttonVariants({ variant: "default" })} w-full`}
-              to="/signup"
-            >
-              Create an account
-            </Link>
-          </div>
-
-      }
+      
+         
           <ModeToggle></ModeToggle>
 
         </div>

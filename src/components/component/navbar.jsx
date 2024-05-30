@@ -3,7 +3,7 @@ import { Button, buttonVariants } from "@/components/ui/button"
 import { DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent, DropdownMenu, DropdownMenuLabel, DropdownMenuSeparator, } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Link } from "react-router-dom";
-import { ModeToggle } from "../mode-toggle";
+import { ModeToggle } from "./mode-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useUserStore } from "@/store/User";
 export function Navbar() {

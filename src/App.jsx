@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Signup from "./pages/Signup";
-import { ThemeProvider } from "./components/theme-provider";
+import { ThemeProvider } from "./components/component/theme-provider";
 import Login from "./pages/Login";
-import { NotFound } from "./components/component/not-found";
+import { NotFound } from "./pages/not-found";
 import './App.css';
 import Main from "./pages/Main";
 import { Landing } from "./components/component/landing";

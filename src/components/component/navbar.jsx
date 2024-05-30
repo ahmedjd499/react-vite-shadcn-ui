@@ -14,7 +14,7 @@ export function Navbar() {
     (<header
       className="flex items-center justify-between h-[10vh] px-4 md:px-6 bg-white shadow-sm dark:bg-gray-950 w-full">
       <div className="flex items-center gap-4">
-      <Link className="flex items-center" to="/">
+      <Link className="flex items-center" to="/main">
         <MountainIcon className="h-6 w-6 mr-2" />
         <span className="text-lg font-bold">Acme Inc</span>
       </Link>

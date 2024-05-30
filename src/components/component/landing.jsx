@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { buttonVariants } from "../ui/button";
+import { Navhome } from "./Navhome";
 
 
 export function Landing() {
   return (<>
-
+<Navhome />
     <main className="min-h-[90vh] flex items-center">
       <section className="py-24 w-full h-full">
         <div className="container mx-auto px-4 flex flex-col items-center text-center">

@@ -14,7 +14,6 @@ return   <Navigate to='/login' />
     <>
       <Navbar />
       <Routes>
-        <Route element={<Landing />} index />
         <Route element={<ToDos />} path="todos" />
       </Routes>
     </>

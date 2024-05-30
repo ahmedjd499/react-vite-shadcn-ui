@@ -5,12 +5,15 @@ import Login from "./pages/Login";
 import { NotFound } from "./components/component/not-found";
 import './App.css';
 import Main from "./pages/Main";
+import { Landing } from "./components/component/landing";
 
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <BrowserRouter>
         <Routes>
+        <Route element={<Landing />} index />
+
           <Route element={<Main />} path="/main/*" />
           <Route element={<Signup />} path="/signup" />
           <Route element={<Login />} path="/login" />

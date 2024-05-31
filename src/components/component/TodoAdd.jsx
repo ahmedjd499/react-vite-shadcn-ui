@@ -32,7 +32,6 @@ import {
 import { Textarea } from "../ui/textarea";
 import { DatePicker } from "../ui/DatePicker";
 import { CircleFadingPlus } from "lucide-react";
-import { LineWithText } from "./line-with-text";
 export function TodoAdd() {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -50,7 +49,7 @@ export function TodoAdd() {
             <DialogTitle> New Todo</DialogTitle>
             <DialogDescription>
               Create a new task for your to-do list.
-              <LineWithText />
+              <hr></hr>
             </DialogDescription>
           </DialogHeader>
           <AddForm />
@@ -62,14 +61,16 @@ export function TodoAdd() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="outline">Edit Profile</Button>
+      <Button variant="default" className="gap-2">
+            <CircleFadingPlus /> Add Task
+          </Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="text-left">
         <DialogTitle> New Todo</DialogTitle>
             <DialogDescription>
               Create a new task for your to-do list.
-              <LineWithText />
+              <hr></hr>
             </DialogDescription>
         </DrawerHeader>
         <AddForm />

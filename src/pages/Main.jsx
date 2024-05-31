@@ -1,8 +1,7 @@
 import { Route, Routes, Navigate, redirect, Outlet } from "react-router-dom";
-import { Landing } from "@/components/component/landing";
 import { Navbar } from "@/components/component/navbar";
-import { ToDos } from "@/components/component/to-dos";
 import { useUserStore } from "@/store/User";
+import { ToDos } from "./to-dos";
 
 const Main = () => {
   const user = useUserStore((state)=>state.user);

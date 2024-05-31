@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { buttonVariants } from "../ui/button";
-import { Navhome } from "./Navhome";
+import { buttonVariants } from "@/components/ui/button";
+import { Navhome } from "@/components/component/Navhome";
+
 
 
 export function Landing() {

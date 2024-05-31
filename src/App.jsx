@@ -5,7 +5,7 @@ import Login from "./pages/Login";
 import { NotFound } from "./pages/not-found";
 import './App.css';
 import Main from "./pages/Main";
-import { Landing } from "./components/component/landing";
+import { Landing } from "./pages/landing";
 
 function App() {
   return (

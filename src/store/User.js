@@ -3,7 +3,7 @@ import { create } from "zustand";
 const defaultUser = null
 
 export const useUserStore=create((set)=>({
-    user :null
+    user :true
       ,
       addUser : (newUser)=>{
         set(()=>{

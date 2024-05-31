@@ -11,7 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import toast, { Toaster } from "react-hot-toast";
+import toast  from "react-hot-toast";
 import PasswordInput from "@/components/ui/PasswordInput";
 import { logInUser } from "@/api/userApi";
 import { Link, useNavigate } from "react-router-dom";
@@ -67,7 +67,6 @@ export default function Login() {
   return (
     <div className="w-full h-[90vh] grid">
       <div className="flex w-full max-w-md items-center border justify-center rounded p-5 m-auto">
-        <Toaster position="top-center" reverseOrder={true} />
         <div className="w-full max-w-md space-y-6">
           <div className="space-y-2 text-left">
             <h1 className="text-3xl font-bold">Welcome Back</h1>

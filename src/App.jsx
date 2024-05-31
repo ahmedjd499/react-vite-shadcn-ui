@@ -6,10 +6,13 @@ import { NotFound } from "./pages/not-found";
 import './App.css';
 import Main from "./pages/Main";
 import { Landing } from "./pages/landing";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <Toaster position="top-center" reverseOrder={true} />
+
       <BrowserRouter>
         <Routes>
         <Route element={<Landing />} index />

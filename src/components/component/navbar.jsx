@@ -7,7 +7,6 @@ import { ModeToggle } from "./mode-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useUserStore } from "@/store/User";
 export function Navbar() {
-  const user = useUserStore((state)=>state.user);
   const logout = useUserStore((state) => state.removeUser);
 
   return (

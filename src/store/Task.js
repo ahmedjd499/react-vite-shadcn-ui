@@ -1,22 +1,37 @@
 import { addTaskApi } from "@/api/taskApi";
+import toast from "react-hot-toast";
 import { create } from "zustand";
 
 export const useTaskStore = create((set) => ({
   tasks: [],
   addTask: (newTask) => {
-    addTaskApi(newtask)
-      .then(() => {
-        set((state) => {
-          state.tasks.puch(newTask);
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const myPromise = addTaskApi(newTask);
+
+
+    toast.promise(myPromise, {
+      loading: "Loading",
+      duration: 5000,
+      success: (result) => {
+    
+        set((state) => ({
+          tasks: [...state.tasks, newTask], // Add the newTask to the tasks array
+        }));
+        return result.data.message;
+      },
+      error: (error) => {
+        console.log(error);
+        return error.response?.data.message || "Error when adding task";
+      },
+    });
   },
-  removeUser: () => {
+  removeTask: () => {
     set((state) => {
-      state.tasks.pop(newTask);
+      // Remove the last task from the tasks array
+      state.tasks.pop();
+      return { tasks: [...state.tasks] }; // Return the updated state
     });
   },
 }));
+
+
+

@@ -6,3 +6,8 @@ export const addTaskApi = (data) => {
   return axios.post(url + prefix + "create", data);
 };
 
+
+export const getTasks = (data) => {
+  return axios.post(url + prefix + "find", data);
+};
+

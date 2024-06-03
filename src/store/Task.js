@@ -1,4 +1,4 @@
-import { addTaskApi, getTasks } from "@/api/taskApi";
+import { addTaskApi, deleteTaskApi, getTasks, updateTaskApi } from "@/api/taskApi";
 import toast from "react-hot-toast";
 import { create } from "zustand";
 
@@ -24,6 +24,7 @@ const fetchTasks = (set) => {
 export const useTaskStore = create((set) => ({
   tasks: [],
   fetchTasks: () => fetchTasks(set),
+ 
   addTask: (newTask) => {
     const myPromise = addTaskApi(newTask);
 
@@ -32,7 +33,7 @@ export const useTaskStore = create((set) => ({
       duration: 5000,
       success: (result) => {
         set((state) => ({
-          tasks: [...state.tasks, newTask], // Add the newTask to the tasks array
+          tasks: [...state.tasks, result.data.object], // Add the newTask to the tasks array
         }));
         return result.data.message;
       },
@@ -42,17 +43,66 @@ export const useTaskStore = create((set) => ({
       },
     });
   },
-  removeTask: () => {
-    set((state) => {
-      // Remove the last task from the tasks array
-      state.tasks.pop();
-      return { tasks: [...state.tasks] }; // Return the updated state
+
+  updateTask: (taskId, newStatus) => {
+    const myPromise = updateTaskApi({ status: newStatus }, taskId);
+
+    toast.promise(myPromise, {
+      loading: "Updating",
+      duration: 5000,
+      success: (result) => {
+        set((state) => ({
+          tasks: state.tasks.map((task) =>
+            task._id === taskId ? { ...task, status: newStatus } : task
+          ),
+        }));
+        return result.data.message;
+      },
+      error: (error) => {
+        console.log(error);
+        return error.response?.data.message || "Error when updating task";
+      },
     });
   },
-  updateTaskStatus: (taskId, newStatus) =>
-    set((state) => ({
-      tasks: state.tasks.map((task) =>
-        task.id === taskId ? { ...task, status: newStatus } : task
-      ),
-    })),
+
+  updateTaskData: (taskId, data) => {
+    const myPromise = updateTaskApi(data, taskId);
+    toast.promise(myPromise, {
+      loading: "Updating",
+      duration: 5000,
+      success: (result) => {
+        set((state) => ({
+          tasks: state.tasks.map((task) =>
+            task._id === taskId ? { ...task, ...data } : task
+          ),
+        }));
+        return result.data.message;
+      },
+      error: (error) => {
+        console.log(error);
+        return error.response?.data.message || "Error when updating task";
+      },
+    });
+  },
+  deleteTask: (taskId) => {
+    const myPromise = deleteTaskApi( taskId);
+
+    toast.promise(myPromise, {
+      loading: "Updating",
+      duration: 5000,
+      success: (result) => {
+        set((state) => ({
+          tasks: state.tasks.filter((task) =>
+            task._id !== taskId 
+          ),
+        }));
+        return result.data.message;
+      },
+      error: (error) => {
+        console.log(error);
+        return error.response?.data.message || "Error when deleting task";
+      },
+    });
+  },
 }));
+

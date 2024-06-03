@@ -106,7 +106,7 @@ export function Navbar() {
                 Edit Profile
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={logout}>
+              <DropdownMenuItem onClick={()=>logout()}>
                 <LogOutIcon className="mr-2 h-4 w-4" />
                 Logout
               </DropdownMenuItem>

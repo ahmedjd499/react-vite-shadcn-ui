@@ -34,6 +34,7 @@ export default function Login() {
   });
 
   const addUser = useUserStore((state) => state.addUser);
+  const addtoken = useUserStore((state) => state.addtoken);
 
    const navigate=useNavigate()
   const onSubmit = (data) => {
@@ -48,6 +49,7 @@ export default function Login() {
         }
         if (result.data.token) {
           sessionStorage.setItem("token", result.data.token);
+          addtoken(result.data.token);
         }
         if (result.data.user) {
           sessionStorage.setItem("user", JSON.stringify(result.data.user));

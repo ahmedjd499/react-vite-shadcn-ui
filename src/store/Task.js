@@ -2,8 +2,8 @@ import { addTaskApi, deleteTaskApi, getTasks, updateTaskApi } from "@/api/taskAp
 import toast from "react-hot-toast";
 import { create } from "zustand";
 
-const fetchTasks = (set) => {
-  const myPromise = getTasks();
+const fetchTasks = (set,data) => {
+  const myPromise = getTasks(data);
 
   toast.promise(myPromise, {
     loading: "Loading",
@@ -23,7 +23,7 @@ const fetchTasks = (set) => {
 
 export const useTaskStore = create((set) => ({
   tasks: [],
-  fetchTasks: () => fetchTasks(set),
+  fetchTasks: (data) => fetchTasks(set,data),
  
   addTask: (newTask) => {
     const myPromise = addTaskApi(newTask);

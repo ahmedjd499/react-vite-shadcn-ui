@@ -41,9 +41,7 @@ import { useTaskStore } from "@/store/Task";
 export function TodoEdit({ task }) {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  React.useEffect(() => {
-    console.log(open);
-  }, [open]);
+
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>

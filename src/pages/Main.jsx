@@ -4,19 +4,21 @@ import { useUserStore } from "@/store/User";
 import { ToDos } from "./to-dos";
 
 const Main = () => {
-  const user = useUserStore((state)=>state.user);
-  if (!user) {
-return   <Navigate to='/login' />
-  }
+  const authenticate = useUserStore((state) => state.authenticate);
+  const user = useUserStore((state) => state.user);
+  const token = useUserStore((state) => state.token);
 
-  return (
-    <>
-      <Navbar />
-      <Routes>
-        <Route element={<ToDos />} path="todos" />
-      </Routes>
-    </>
-  );
+
+  if (!user || !token || !authenticate()) {
+    return <Navigate to="/login" />;
+  } else
+    return (
+      <>
+        <Navbar />
+        <Routes>
+          <Route element={<ToDos />} path="todos" />
+        </Routes>
+      </>
+    );
 };
-
 export default Main;

@@ -1,5 +1,5 @@
 
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent, DropdownMenu, DropdownMenuLabel, DropdownMenuSeparator, } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Link } from "react-router-dom";
@@ -8,7 +8,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useUserStore } from "@/store/User";
 export function Navbar() {
   const logout = useUserStore((state) => state.removeUser);
-
+  const user = useUserStore((state) => state.user);
+  const url = import.meta.env.VITE_BACKEND_API || "http://localhost/";
   return (
     (<header
       className="flex items-center justify-between h-[10vh] px-4 md:px-6 bg-white shadow-sm dark:bg-gray-950 w-full">
@@ -94,8 +95,8 @@ export function Navbar() {
     
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-            <Avatar className=" h-8 w-8">
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn"  className="rounded-full"/>
+            <Avatar className=" h-8 w-8 cursor-pointer">
+            <AvatarImage src={user.file ?url+'files/'+ user.file : '/src/assets/avatar.jpg'} alt="@shadcn"  className="rounded-full"/>
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
             </DropdownMenuTrigger>

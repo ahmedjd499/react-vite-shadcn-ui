@@ -46,6 +46,7 @@ const formSchema = z.object({
 export default function Signup() {
   const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(null);
+  const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
 
   const form = useForm({
@@ -59,7 +60,14 @@ export default function Signup() {
   });
 
   const onSubmit = (data) => {
-    const myPromise = createUser(data);
+    let formData =new FormData()
+    formData.append('file',image)
+    formData.append('firstname',data.firstname)
+    formData.append('lastname',data.lastname)
+    formData.append('email',data.email)
+    formData.append('password',data.password)
+
+    const myPromise = createUser(formData);
 
     toast.promise(myPromise, {
       loading: "Loading",
@@ -86,6 +94,7 @@ export default function Signup() {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      setImage(file)
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);

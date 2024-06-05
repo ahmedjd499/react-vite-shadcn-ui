@@ -14,7 +14,8 @@ import { Loader2 } from "lucide-react";
 
 export const YoutubeDownloader = () => {
   const [url, setUrl] = useState("");
-  const [quality, setQuality] = useState("720p");
+  const [quality, setQuality] = useState("360p");
+  const [platform, setPlatform] = useState('youtube');
   const [loadingMp4, setLoadingMp4] = useState(false);
   const [loadingMp3, setLoadingMp3] = useState(false);
   const [error, setError] = useState("");
@@ -28,9 +29,9 @@ export const YoutubeDownloader = () => {
     if (format === "mp4") setLoadingMp4(true);
     if (format === "mp3") setLoadingMp3(true);
     setError("");
-
+console.log({ url, format, quality,platform });
     try {
-      const response = await youtubeDownload({ url, format, quality });
+      const response = await youtubeDownload({ url, format, quality,platform });
       if (response.status === 200) {
         const downloadUrl = window.URL.createObjectURL(
           new Blob([response.data])
@@ -71,6 +72,26 @@ export const YoutubeDownloader = () => {
               onChange={(e) => setUrl(e.target.value)}
             />
           </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="video-platform">Platform</Label>
+            <Select
+              id="video-platform"
+              value={platform}
+              onValueChange={(value) => setPlatform(value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select platform" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="youtube">YouTube</SelectItem>
+                <SelectItem value="tiktok">TikTok</SelectItem>
+                <SelectItem value="instagram">Instagram</SelectItem>
+                <SelectItem value="facebook">Facebook</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="video-quality">Video Quality</Label>
             <Select

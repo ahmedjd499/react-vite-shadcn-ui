@@ -8,7 +8,7 @@ import {
   Card,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TodoAdd } from "../components/component/TodoAdd";
+import { TodoAdd } from "../../components/component/TodoAdd";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { format } from "date-fns";
@@ -329,7 +329,7 @@ const DropOptions = ({ task }) => {
           <span className="sr-only">Open task menu</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-48 p-1">
+      <DropdownMenuContent className="w-48 p-1 mr-5">
         <TodoEdit task={task} />
 
         <DropdownMenuItem

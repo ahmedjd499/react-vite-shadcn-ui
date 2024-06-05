@@ -19,7 +19,7 @@ import PasswordInput from "@/components/ui/PasswordInput";
 import { LineWithText } from "@/components/component/line-with-text";
 import { Link, useNavigate } from "react-router-dom";
 import { SquarePen } from "lucide-react";
-import avatar from '../assets/avatar.jpg' ;
+import avatar from '@/assets/avatar.jpg' ;
 const formSchema = z.object({
   firstname: z.string().min(2, {
     message: "firstname must be at least 2 characters.",

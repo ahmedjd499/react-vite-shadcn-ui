@@ -1,12 +1,12 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Signup from "./pages/Signup";
+import Signup from "./pages/common/Signup";
 import { ThemeProvider } from "./components/component/theme-provider";
-import Login from "./pages/Login";
-import { NotFound } from "./pages/not-found";
+import Login from "./pages/common/Login";
+import { NotFound } from "./pages/common/not-found";
 import './App.css';
-import Main from "./pages/Main";
-import { Landing } from "./pages/landing";
+import { Landing } from "./pages/common/landing";
 import { Toaster } from "react-hot-toast";
+import Main from "./pages/common/Main";
 
 function App() {
   return (

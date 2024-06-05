@@ -12,19 +12,23 @@ import { Link } from "react-router-dom";
 import { ModeToggle } from "./mode-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useUserStore } from "@/store/User";
+import Sidebar from "./sidebar";
+import { ListChecks, Youtube } from "lucide-react";
 export function Navbar() {
   const logout = useUserStore((state) => state.removeUser);
   const user = useUserStore((state) => state.user);
   const url = import.meta.env.VITE_BACKEND_API || "http://localhost/";
   return (
+    <>
+
     <header className="flex items-center justify-between h-[10vh] px-4 md:px-6 bg-white shadow-sm dark:bg-gray-950 w-full">
       <div className="flex items-center gap-4">
-        <Link className="flex items-center" to="/main">
+        <Link className="flex items-center" to="/">
           <MountainIcon className="h-6 w-6 mr-2" />
           <span className="text-lg font-bold">Acme Inc</span>
         </Link>
 
-        <div className="relative md:hidden">
+        <div className="relative ">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button className="rounded-full" size="icon" variant="ghost">
@@ -45,19 +49,19 @@ export function Navbar() {
               <DropdownMenuItem>
                 <Link
                   className="flex w-full items-center py-2 text-sm font-medium"
-                  to="/"
+                  to="/main/todos"
                 >
-                  <InfoIcon className="mr-2 h-4 w-4" />
-                  About
+                  <ListChecks className="mr-2"/>
+                  TODO
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Link
                   className="flex w-full items-center py-2 text-sm font-medium"
-                  to="/"
+                  to="/main/youtube-downloader"
                 >
-                  <BriefcaseIcon className="mr-2 h-4 w-4" />
-                  Services
+                  <Youtube className="mr-2"/>
+                   Downloader
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
@@ -73,7 +77,7 @@ export function Navbar() {
           </DropdownMenu>
         </div>
 
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
+        {/* <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
           <Link
             className="hover:underline underline-offset-4 flex items-center"
             to="/"
@@ -102,7 +106,7 @@ export function Navbar() {
             <PhoneIcon className="mr-2 h-4 w-4" />
             Contact
           </Link>
-        </nav>
+        </nav> */}
       </div>
       <div className="flex items-center gap-4">
         <form className="flex-1 max-w-md">
@@ -123,7 +127,7 @@ export function Navbar() {
                 <AvatarImage
                   src={
                     user.file
-                      ? url + "files/" + user.file
+                      ? url + "general/files/" + user.file
                       : "/src/assets/avatar.jpg"
                   }
                   alt="@shadcn"
@@ -150,6 +154,9 @@ export function Navbar() {
         </div>
       </div>
     </header>
+   
+    </>
+
   );
 }
 

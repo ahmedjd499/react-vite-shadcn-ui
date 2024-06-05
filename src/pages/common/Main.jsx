@@ -1,7 +1,8 @@
-import { Route, Routes, Navigate, redirect, Outlet } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { Navbar } from "@/components/component/navbar";
 import { useUserStore } from "@/store/User";
-import { ToDos } from "./to-dos";
+import { ToDos } from "../todo-app/to-dos";
+import { YoutubeDownloader } from "../youtube-downloader/youtube-downloader";
 
 const Main = () => {
   const authenticate = useUserStore((state) => state.authenticate);
@@ -17,6 +18,7 @@ const Main = () => {
         <Navbar />
         <Routes>
           <Route element={<ToDos />} path="todos" />
+          <Route element={<YoutubeDownloader />} path="youtube-downloader" />
         </Routes>
       </>
     );

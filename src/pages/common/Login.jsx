@@ -54,7 +54,7 @@ export default function Login() {
         if (result.data.user) {
           sessionStorage.setItem("user", JSON.stringify(result.data.user));
           addUser(result.data.user);
-          navigate("/main/youtube-downloader")
+          navigate("/main/home")
         }
 
         return result.data.message;

@@ -12,11 +12,18 @@ export const useUserStore=create((set)=>({
        if(!sessionStorage.getItem("token"))
         return false
        
+       if(!useUserStore.getState().token)
+        useUserStore.addtoken(sessionStorage.getItem("token"))
+       
+       
+       if(!useUserStore.getState().user)
+        useUserStore.addUser(JSON.parse(sessionStorage.getItem("user")))
        
       const token = sessionStorage.getItem("token");
       const   user=JSON.parse(sessionStorage.getItem("user"))
       const storedToken = useUserStore.getState().token;
       const storedUser = useUserStore.getState().user;
+      console.log(token === storedToken && user._id === storedUser._id);
   return  token === storedToken && user._id === storedUser._id;
     },
     addUser: (newUser) => {

@@ -1,7 +1,5 @@
 import { useUserStore } from "@/store/User";
 import axios from "axios";
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 
 const prefix = "task/";
 const url = import.meta.env.VITE_BACKEND_API || "http://localhost/";
@@ -34,19 +32,14 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-export const handleUnauthorizedError = () => {
-  const navigate = useNavigate();
-  toast.error("Session expired, please reconnect!");
-  navigate("/login");
-  return <></>
-};
 
 // Add an error interceptor to handle 401 errors
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      handleUnauthorizedError();
+      window.location.replace('/login');
+
     }
     return Promise.reject(error);
   }

@@ -12,7 +12,6 @@ import { Link } from "react-router-dom";
 import { ModeToggle } from "./mode-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useUserStore } from "@/store/User";
-import Sidebar from "./sidebar";
 import { ListChecks, Youtube } from "lucide-react";
 export function Navbar() {
   const logout = useUserStore((state) => state.removeUser);
@@ -23,7 +22,7 @@ export function Navbar() {
 
     <header className="flex items-center justify-between h-[10vh] px-4 md:px-6 bg-white shadow-sm dark:bg-gray-950 w-full">
       <div className="flex items-center gap-4">
-        <Link className="flex items-center" to="/">
+        <Link className="flex items-center" to="/main/home">
           <MountainIcon className="h-6 w-6 mr-2" />
           <span className="text-lg font-bold">Acme Inc</span>
         </Link>
@@ -40,9 +39,9 @@ export function Navbar() {
               <DropdownMenuItem>
                 <Link
                   className="flex w-full items-center py-2 text-sm font-medium "
-                  to="/"
+                  to="/main/home"
                 >
-                  <HomeIcon className="mr-2 h-4 w-4" />
+                  <HomeIcon className="mr-2 h-5 w-5" />
                   Home
                 </Link>
               </DropdownMenuItem>
@@ -58,7 +57,7 @@ export function Navbar() {
               <DropdownMenuItem>
                 <Link
                   className="flex w-full items-center py-2 text-sm font-medium"
-                  to="/main/youtube-downloader"
+                  to="/main/media-downloader"
                 >
                   <Youtube className="mr-2"/>
                    Downloader

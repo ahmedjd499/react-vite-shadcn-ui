@@ -20,22 +20,14 @@ export const YoutubeDownloader = () => {
   const [loadingMp3, setLoadingMp3] = useState(false);
   const [error, setError] = useState("");
 
-
-  const handleUrlchange=(url)=>{
-    setUrl(url)
-    if(url.includes('youtube') || url.includes('youtu.be'))
-      setPlatform('youtube')
-  else 
-  if(url.includes('tiktok')) 
-    setPlatform('tiktok')
-else   
-
-if(url.includes('facebook'))
-  setPlatform('facebook')
-else 
-if(url.includes('instagram'))
-  setPlatform('instagram')
-  }
+  const handleUrlchange = (url) => {
+    setUrl(url);
+    if (url.includes("youtube") || url.includes("youtu.be"))
+      setPlatform("youtube");
+    else if (url.includes("tiktok")) setPlatform("tiktok");
+    else if (url.includes("facebook")) setPlatform("facebook");
+    else if (url.includes("instagram")) setPlatform("instagram");
+  };
   const handleDownload = async (format) => {
     if (!url) {
       setError("Please enter a URL.");
@@ -74,8 +66,9 @@ if(url.includes('instagram'))
     }
   };
   return (
-    <main className="flex-1 content-center">
-      <div className="mx-auto max-w-md space-y-6 py-12 px-5 border rounded">
+    <main className="flex-1 content-center  ">
+      
+      <div className="mx-auto max-w-md space-y-6 py-12 px-5 border rounded 	">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold">Media Downloader</h1>
           <p className="text-gray-500 dark:text-gray-400">

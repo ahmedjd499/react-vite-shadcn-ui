@@ -14,12 +14,28 @@ import { Loader2 } from "lucide-react";
 
 export const YoutubeDownloader = () => {
   const [url, setUrl] = useState("");
-  const [quality, setQuality] = useState("360p");
-  const [platform, setPlatform] = useState('youtube');
+  const [quality, setQuality] = useState("");
+  const [platform, setPlatform] = useState("youtube");
   const [loadingMp4, setLoadingMp4] = useState(false);
   const [loadingMp3, setLoadingMp3] = useState(false);
   const [error, setError] = useState("");
 
+
+  const handleUrlchange=(url)=>{
+    setUrl(url)
+    if(url.includes('youtube') || url.includes('youtu.be'))
+      setPlatform('youtube')
+  else 
+  if(url.includes('tiktok')) 
+    setPlatform('tiktok')
+else   
+
+if(url.includes('facebook'))
+  setPlatform('facebook')
+else 
+if(url.includes('instagram'))
+  setPlatform('instagram')
+  }
   const handleDownload = async (format) => {
     if (!url) {
       setError("Please enter a URL.");
@@ -29,9 +45,13 @@ export const YoutubeDownloader = () => {
     if (format === "mp4") setLoadingMp4(true);
     if (format === "mp3") setLoadingMp3(true);
     setError("");
-console.log({ url, format, quality,platform });
     try {
-      const response = await youtubeDownload({ url, format, quality,platform });
+      const response = await youtubeDownload({
+        url,
+        format,
+        quality,
+        platform,
+      });
       if (response.status === 200) {
         const downloadUrl = window.URL.createObjectURL(
           new Blob([response.data])
@@ -69,7 +89,7 @@ console.log({ url, format, quality,platform });
               id="video-url"
               placeholder="Paste the YouTube video URL here"
               type="text"
-              onChange={(e) => setUrl(e.target.value)}
+              onChange={(e) => handleUrlchange(e.target.value)}
             />
           </div>
 
@@ -102,14 +122,21 @@ console.log({ url, format, quality,platform });
               <SelectTrigger>
                 <SelectValue placeholder="Select quality" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="360p">360p</SelectItem>
-                <SelectItem value="480p">480p</SelectItem>
-                <SelectItem value="720p">720p</SelectItem>
-                <SelectItem value="1080p">1080p</SelectItem>
-                <SelectItem value="1440p">1440p</SelectItem>
-                <SelectItem value="2160p">2160p (4K)</SelectItem>
-              </SelectContent>
+              {platform != "facebook" ? (
+                <SelectContent>
+                  <SelectItem value="360p">360p</SelectItem>
+                  <SelectItem value="480p">480p</SelectItem>
+                  <SelectItem value="720p">720p</SelectItem>
+                  <SelectItem value="1080p">1080p</SelectItem>
+                  <SelectItem value="1440p">1440p</SelectItem>
+                  <SelectItem value="2160p">2160p (4K)</SelectItem>
+                </SelectContent>
+              ) : (
+                <SelectContent>
+                  <SelectItem value="hd">HD</SelectItem>
+                  <SelectItem value="sd">SD</SelectItem>
+                </SelectContent>
+              )}
             </Select>
           </div>
           {loadingMp4 || loadingMp3 ? (

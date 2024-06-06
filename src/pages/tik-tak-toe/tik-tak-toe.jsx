@@ -98,9 +98,10 @@ export default function TikTakToe() {
   const [gameIdInput, setGameIdInput] = useState("");
   const gameIdInputRef = useRef(null);
   const playerSymbolRef = useRef(null);
-
+  
+  const wsUrl = import.meta.env.VITE_WSBACKEND_API || "ws://localhost:3000";
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8080");
+    const ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
       console.log("WebSocket connection established");

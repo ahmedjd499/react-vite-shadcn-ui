@@ -4,6 +4,7 @@ import { useUserStore } from "@/store/User";
 import { ToDos } from "../todo-app/to-dos";
 import { YoutubeDownloader } from "../youtube-downloader/youtube-downloader";
 import { HomeApps } from "../home-apps/home-apps";
+import TikTakToe from "../tik-tak-toe/tik-tak-toe";
 
 const Main = () => {
   const authenticate = useUserStore((state) => state.authenticate);
@@ -19,8 +20,9 @@ const Main = () => {
         <Navbar />
         <Routes>
           <Route element={<HomeApps />} path="/home" />
-          <Route element={<ToDos />} path="todos" />
+          <Route element={<ToDos />} path="todos"  />
           <Route element={<YoutubeDownloader />} path="media-downloader" />
+          <Route element={<TikTakToe/>} path="tic-tak-Toe" />
         </Routes>
       </>
     );

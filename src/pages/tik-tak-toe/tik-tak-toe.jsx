@@ -87,6 +87,10 @@
 
 
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Copy } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
 export default function TikTakToe() {
@@ -98,7 +102,7 @@ export default function TikTakToe() {
   const [gameIdInput, setGameIdInput] = useState("");
   const gameIdInputRef = useRef(null);
   const playerSymbolRef = useRef(null);
-  
+
   const wsUrl = import.meta.env.VITE_WSBACKEND_API || "ws://localhost:3000";
   useEffect(() => {
     const ws = new WebSocket(wsUrl);
@@ -151,8 +155,10 @@ export default function TikTakToe() {
     };
 
     return () => {
-      ws.close();
-    };
+      if (ws.readyState === 1) { // <-- This is important
+          ws.close();
+      }
+  }
   }, []);
 
   
@@ -206,36 +212,46 @@ export default function TikTakToe() {
   };
 
   const winner = checkWin();
-
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+   //   alert("Game ID copied to clipboard!");
+    }).catch((err) => {
+      console.error("Could not copy text: ", err);
+    });
+  };
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-4xl font-bold mb-8">Tic Tac Toe</h1>
-      {gameId}
-    {!gameId && (
-        <div className="mb-4">
-          <button
-            className="mr-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-400"
-            onClick={handleCreateGame}
-          >
-            Create Game
-          </button>
-          <input
-            type="text"
-            placeholder="Game ID"
-            className="mr-4 px-4 py-2 border rounded-md"
-            value={gameIdInput}
+      <h1 className="text-4xl font-bold mb-2">Tic Tac Toe</h1>
+
+    
+      
+    {!gameId ? (
+      
+
+      <div className="container px-4 md:px-6 mb-5">
+        <div className="mx-auto max-w-md ">
+            <p className="text-gray-500 dark:text-gray-400 mb-2" >
+              Enter a game ID to join an existing game, or create a new one.
+            </p>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Input id="gameId" placeholder="Enter game ID" className="w-full"   value={gameIdInput}
             ref={gameIdInputRef}
-            onChange={(e) => setGameIdInput(e.target.value)}
-          />
-          <button
-            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-400"
-            onClick={handleJoinGame}
-          >
-            Join Game
-          </button>
+            onChange={(e) => setGameIdInput(e.target.value)}/>
+            </div>
+            <div className="flex justify-between gap-4">
+              <Button variant="outline" className="flex-1"  onClick={handleJoinGame}>
+                Join Game
+              </Button>
+              <Button className="flex-1" onClick={handleCreateGame}>Create New Game</Button>
+            </div>
+          </div>
         </div>
-      )}
-      <div className="grid grid-cols-3 gap-4">
+      </div> )
+:
+<Button  variant="outline" className="my-2 gap-2" onClick={() => copyToClipboard(gameId)}><Copy /> {gameId} </Button>
+     }
+      <div className= "grid grid-cols-3 gap-4">
         {board.map((cell, index) => (
           <button
             key={index}

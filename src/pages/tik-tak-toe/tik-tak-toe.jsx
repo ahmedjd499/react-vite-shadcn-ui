@@ -1,4 +1,3 @@
-
 // "use strict"
 
 // import { useState } from "react"
@@ -67,7 +66,7 @@
 //       {
 //         !winner && (
 //           <div className="mt-8 text-2xl font-bold">
-//          Player  {currentPlayer} turn 
+//          Player  {currentPlayer} turn
 //     </div>
 
 //         )
@@ -82,19 +81,19 @@
 //   )
 // }
 
-
-
 import Congrats from "@/components/component/Congrats";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ClipboardPaste, Copy } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 
 export default function TikTakToe() {
   const [board, setBoard] = useState(Array(9).fill(null));
   const [currentPlayer, setCurrentPlayer] = useState("X");
   const [socket, setSocket] = useState(null);
   const [gameId, setGameId] = useState("");
+  const { gameId_param  } = useParams();
   const [playerSymbol, setPlayerSymbol] = useState(null);
   const [gameIdInput, setGameIdInput] = useState("");
   const [gameOver, setGameOver] = useState(false); // New state variable
@@ -156,7 +155,8 @@ export default function TikTakToe() {
     };
 
     return () => {
-      if (ws.readyState === 1) { // <-- This is important
+      if (ws.readyState === 1) {
+        // <-- This is important
         ws.close();
       }
     };
@@ -183,10 +183,20 @@ export default function TikTakToe() {
   const handleJoinGame = () => {
     if (gameIdInput.trim() !== "") {
       socket.send(JSON.stringify({ type: "join", gameId: gameIdInput }));
-    } else {
+    }else if(gameId_param)
+      socket.send(JSON.stringify({ type: "join", gameId: gameId_param }));
+
+    else {
       alert("Please enter a valid Game ID.");
     }
   };
+
+  useEffect(()=>{
+    if(gameId_param)
+   
+    handleJoinGame()
+  
+  },[gameId_param,socket])
 
   const handleReset = () => {
     socket.send(JSON.stringify({ type: "reset", gameId }));
@@ -232,25 +242,25 @@ export default function TikTakToe() {
     if (winner) {
       return false;
     }
-  
+
     // If all cells are filled and no winner, it's a tie
     if (!board.includes(null)) {
       return true;
     }
-  
+
     // Recursive case: try all possible moves
     for (let i = 0; i < board.length; i++) {
       if (board[i] === null) {
         const newBoard = [...board];
         newBoard[i] = player;
-  
+
         // If the opponent can't force a tie, it's not a guaranteed tie
         if (!isPotentialTie(newBoard, player === "X" ? "O" : "X")) {
           return false;
         }
       }
     }
-  
+
     // If all moves lead to a tie, it's a guaranteed tie
     return true;
   };
@@ -278,11 +288,14 @@ export default function TikTakToe() {
   };
 
   const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text).then(() => {
-      // alert("Game ID copied to clipboard!");
-    }).catch((err) => {
-      console.error("Could not copy text: ", err);
-    });
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        // alert("Game ID copied to clipboard!");
+      })
+      .catch((err) => {
+        console.error("Could not copy text: ", err);
+      });
   };
   const paste = async () => {
     try {
@@ -313,7 +326,9 @@ export default function TikTakToe() {
                   ref={gameIdInputRef}
                   onChange={(e) => setGameIdInput(e.target.value)}
                 />
-                <ClipboardPaste className="cursor-pointer " onClick={(e) => paste() }
+                <ClipboardPaste
+                  className="cursor-pointer "
+                  onClick={(e) => paste()}
                 />
               </div>
               <div className="flex justify-between gap-4">
@@ -350,7 +365,11 @@ export default function TikTakToe() {
                 : cell === "O"
                 ? "text-red-500 hover:bg-red-100"
                 : "hover:bg-gray-100"
-            } ${currentPlayer === playerSymbol && !gameOver ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+            } ${
+              currentPlayer === playerSymbol && !gameOver
+                ? "cursor-pointer"
+                : "cursor-not-allowed"
+            }`}
             onClick={() => handleCellClick(index)}
             disabled={gameOver} // Disable button if game is over
           >
@@ -363,9 +382,23 @@ export default function TikTakToe() {
           {winner === "tie" ? "It's a tie!" : `Player ${winner} wins!`}
         </div>
       )}
-      {
-        winner && <Congrats winner={winner =='tie' ? 'tie' : playerSymbol == 'X' && winner=='X' ? 'X' :playerSymbol == 'X' && winner=='O' ? 'O' : playerSymbol == 'O' && winner=='O' ? 'X':playerSymbol == 'O' && winner=='X' ? 'O' :''}/>
-      }
+      {winner && (
+        <Congrats
+          winner={
+            winner == "tie"
+              ? "tie"
+              : playerSymbol == "X" && winner == "X"
+              ? "X"
+              : playerSymbol == "X" && winner == "O"
+              ? "O"
+              : playerSymbol == "O" && winner == "O"
+              ? "X"
+              : playerSymbol == "O" && winner == "X"
+              ? "O"
+              : ""
+          }
+        />
+      )}
       {!winner && (
         <div className="mt-8 text-2xl font-bold">
           Player {currentPlayer} turn

@@ -7,7 +7,7 @@ import tie from '@/assets/tie1.gif'
 
  const  Congrats = ({winner}) => {
   const { width, height } = useWindowSize()
-  console.log(winner);
+  
   return (
     <>
 
@@ -23,10 +23,13 @@ import tie from '@/assets/tie1.gif'
         />
       </div>
     </div>
+    {
+        winner =='X' &&
     <Confetti
       width={width}
       height={height}
     />
+    }
     </>
   )
     

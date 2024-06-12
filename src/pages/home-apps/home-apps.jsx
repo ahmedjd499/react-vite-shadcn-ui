@@ -1,3 +1,4 @@
+import { Bomb } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export function HomeApps() {
@@ -33,7 +34,16 @@ export function HomeApps() {
             <TikTakToeIcon className="h-8 w-8 text-gray-500 dark:text-gray-200" />
           </div>
           <h3 className="text-lg font-medium">Tik Tak Toe</h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400">Download videos, music, and more.</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Play online with your friends.</p>
+        </Link>
+        <Link
+          className="flex flex-col items-center gap-2 rounded-lg bg-white p-4 shadow-lg transition-transform hover:-translate-y-2 hover:shadow-xl dark:bg-gray-900"
+          to='/main/mines-game'>
+          <div className="rounded-full bg-gray-100 p-4 dark:bg-gray-800">
+            <Bomb className="h-8 w-8 text-gray-500 dark:text-gray-200" />
+          </div>
+          <h3 className="text-lg font-medium">Mines</h3>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Play coul mines field game.</p>
         </Link>
 
       </div>

@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { ModeToggle } from "./mode-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useUserStore } from "@/store/User";
-import { Gamepad2, ListChecks, Youtube } from "lucide-react";
+import { Bomb, Gamepad2, ListChecks, Youtube } from "lucide-react";
 export function Navbar() {
   const logout = useUserStore((state) => state.removeUser);
   const user = useUserStore((state) => state.user);
@@ -68,8 +68,17 @@ export function Navbar() {
                   className="flex w-full items-center py-2 text-sm font-medium"
                   to="/main/tic-tak-Toe"
                 >
-                  <Gamepad2 className="mr-2 h-4 w-4" />
+                  <Gamepad2 className="mr-2 " />
                   TikTakToe
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link
+                  className="flex w-full items-center py-2 text-sm font-medium"
+                  to="/main/tic-tak-Toe"
+                >
+                  <Bomb className="mr-2 " />
+                  Mines game
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>

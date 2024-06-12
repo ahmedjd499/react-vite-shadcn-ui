@@ -7,6 +7,17 @@ module.exports = {
     './app/**/*.{js,jsx}',
     './src/**/*.{js,jsx}',
   ],
+  safelist: [
+  {
+      pattern: /grid-cols-./,
+  },
+  {
+    pattern: /w-./,
+},
+{
+  pattern: /h-./,
+}
+],
   prefix: "",
   theme: {
     container: {

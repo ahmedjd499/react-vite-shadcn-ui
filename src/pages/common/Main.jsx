@@ -8,6 +8,7 @@ import TikTakToe from "../tik-tak-toe/tik-tak-toe";
 import { useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import Mines from "../mines-game/Mines";
 const useAuth = () => {
   const navigate = useNavigate();
 
@@ -73,6 +74,7 @@ const Main = () => {
         <Route element={<ToDos />} path="todos" />
         <Route element={<YoutubeDownloader />} path="media-downloader" />
         <Route element={<TikTakToe />} path="tic-tak-toe/:gameId_param?" />
+        <Route element={<Mines />} path="mines-game" />
       </Routes>
     </PrivateRoute>
   );

@@ -1,64 +1,65 @@
-"use strict";
-
 import { useEffect, useState } from "react";
 import bomb from "../../assets/bomb.gif";
-import { Flag } from "lucide-react";
+import flag from "../../assets/flag-2.png";
+import { Bomb, Flag } from "lucide-react";
 import { useWindowSize } from "react-use";
-import Confetti from 'react-confetti'
+import Confetti from "react-confetti";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Dialog } from "@radix-ui/react-dialog";
+import {
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  
+} from "@/components/ui/dialog";
 
-const ROWS = 6; // Changed to 6
-const COLS = 6; // Changed to 6
-const rays = {
-  2: "40",
-  3: "20",
-  4: "20",
-  5: "20",
-  6: "20",
-  7: "20",
-  8: "20",
-  9: "10",
-  10: "10",
-};
+const MAX_ROWS_COLS = 10;
 
 export default function Mines() {
-  const [board, setBoard] = useState(
-    Array.from({ length: ROWS }, () =>
-      Array.from({ length: COLS }, () => ({ v: "", o: false, flagged: false }))
-    )
-  );
+  const [board, setBoard] = useState([]);
   const [win, setWin] = useState(1);
-  const [nbrMines, setNbrMines] = useState(0); // State to track number of bombs
-  const [nbrFlags, setNbrFlags] = useState(0); // State to track number of flags
-  const [mode, setMode] = useState("reveal"); // 'reveal' or 'flag'
-  const { width, height } = useWindowSize()
-  const ray = rays[COLS];
+  const [nbrMines, setNbrMines] = useState(0);
+  const [nbrFlags, setNbrFlags] = useState(0);
+  const [mode, setMode] = useState("reveal");
+  const [modalOpen, setModalOpen] = useState(true);
+  const { width, height } = useWindowSize();
+
+  const ray = 20; // Default ray value
+
+  // Modal input states
+  const [ROWS, setROWS] = useState(6);
+  const [COLS, setCOLS] = useState(6);
 
   useEffect(() => {
-    initializeBoard();
-  }, []); // Empty dependency array to run only once
+    initializeBoard(ROWS, COLS);
+  }, [ROWS, COLS]);
 
-  const initializeBoard = () => {
-    const nbrMines = Math.floor(Math.sqrt(ROWS * COLS)); // Ensure nbrMines is an integer
+  const initializeBoard = (rows, cols) => {
+    const nbrMines = Math.floor(Math.sqrt(rows * cols));
     setNbrMines(nbrMines);
-    let newBoard = Array.from({ length: ROWS }, () =>
-      Array.from({ length: COLS }, () => ({ v: "", o: false, flagged: false }))
+    let newBoard = Array.from({ length: rows }, () =>
+      Array.from({ length: cols }, () => ({ v: "", o: false, flagged: false }))
     );
     let minesIndex = new Set();
 
     while (minesIndex.size < nbrMines) {
-      let cellIndex = Math.floor(Math.random() * ROWS * COLS);
+      let cellIndex = Math.floor(Math.random() * rows * cols);
       minesIndex.add(cellIndex);
     }
 
     minesIndex.forEach((cellIndex) => {
-      const rowIndex = Math.floor(cellIndex / COLS);
-      const colIndex = cellIndex % COLS;
+      const rowIndex = Math.floor(cellIndex / cols);
+      const colIndex = cellIndex % cols;
       newBoard[rowIndex][colIndex].v = "X";
     });
 
     setBoard(newBoard);
-    setNbrFlags(0); // Reset number of flags
-    setWin(1); // Reset win state
+    setNbrFlags(0);
+    setWin(1);
   };
 
   const handleCellClick = (rowIndex, colIndex) => {
@@ -177,41 +178,96 @@ export default function Mines() {
   };
 
   const handleReset = () => {
-    initializeBoard();
+    initializeBoard(ROWS, COLS);
+    // setModalOpen(true)
+  };
+  const handleSubmitModal = () => {
+    if (ROWS > 0 && COLS > 0 && COLS <= MAX_ROWS_COLS) {
+      setModalOpen(false);
+    } else {
+      alert(`Please enter valid  columns (max ${MAX_ROWS_COLS}).`);
+    }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
+    <div className="flex flex-col items-center justify-center min-h-screen pb-5">
+      <Dialog defaultOpen open={modalOpen} >
+        <DialogContent className="sm:max-w-[400px]">
+          <DialogHeader >
+            <DialogTitle>Create a game Grid</DialogTitle>
+            <DialogDescription>
+              Enter the number of rows and columns for your game grid.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid items-center grid-cols-4 ">
+              <Label htmlFor="rows" className="text-left">
+                Rows
+              </Label>
+              <Input
+                id="rows"
+                type="number"
+                min="2"
+                max="10"
+                value={ROWS}
+                onChange={(e) => setROWS(parseInt(e.target.value))}
+                className="col-span-3"
+              />
+            </div>
+            <div className="grid items-center grid-cols-4 ">
+              <Label htmlFor="columns" className="text-left">
+                Columns
+              </Label>
+              <Input
+                id="columns"
+                type="number"
+                min="2"
+                max="10"
+                value={COLS}
+                onChange={(e) => setCOLS(parseInt(e.target.value))}
+                className="col-span-3"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button onClick={handleSubmitModal}>Start Game</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <h1 className="text-4xl font-bold mb-4">Find Mines</h1>
+
       <div className="text-lg mb-8">
         <div>Number of Bombs: {nbrMines}</div>
         <div>Available Flags: {nbrMines - nbrFlags}</div>
       </div>
       <div className="flex items-center mb-4">
-        <button
-          className={`px-4 py-2 rounded-l-md ${
-            mode === "reveal" ? "bg-gray-900 text-white" : "bg-gray-200"
-          }`}
+        <Button
+                   className={`px-4 py-2 rounded-r-none`}
+
           onClick={() => setMode("reveal")}
+          variant={`${
+            mode === "reveal" ? "" : "secondary"
+          }`}
         >
           Reveal
-        </button>
-        <button
-          className={`px-4 py-2 rounded-r-md ${
-            mode === "flag" ? "bg-gray-900 text-white" : "bg-gray-200"
+        </Button>
+        <Button
+          className={`px-4 py-2 rounded-l-none`}
+          variant={`${
+            mode === "flag" ? "" : "secondary"
           }`}
           onClick={() => setMode("flag")}
         >
-          Flag
-        </button>
+          Flag 
+        </Button>
+        <span className="bg-pink-800 h-full ml-5 px-5  rounded flex items-center gap-2 text-white"> <Flag /> {nbrMines - nbrFlags}</span>
+        <span className="bg-slate-800 h-full ml-5 px-5  rounded flex items-center gap-2 text-white"> <Bomb /> {nbrMines}</span>
       </div>
       <div className={`grid grid-cols-${COLS} gap-2`}>
-        {" "}
-        {/* Explicit number of columns */}
         {board.map((row, rowIndex) =>
           row.map((cell, colIndex) => (
             <button
-              disabled={win !== 1}
               key={`${rowIndex}-${colIndex}`}
               className={`w-${ray} h-${ray} border-2 rounded-md transition-colors flex items-center justify-center font-extrabold ${
                 cell.o
@@ -228,7 +284,11 @@ export default function Mines() {
                   className="w-full h-full object-contain"
                 />
               ) : cell.flagged ? (
-                <Flag />
+                <img
+                  alt="flag"
+                  src={flag}
+                  className="w-full h-full object-contain"
+                />
               ) : cell.v === "X" || cell.v === 0 ? (
                 ""
               ) : (
@@ -241,10 +301,7 @@ export default function Mines() {
       {win === 3 && (
         <div className="mt-8 text-2xl font-bold text-green-600">
           Congratulations! You won!
-          <Confetti  
-              width={width -5}
-      height={height}
-    />
+          <Confetti width={width - 5} height={height} />
         </div>
       )}
       {win === 2 && (
@@ -252,16 +309,23 @@ export default function Mines() {
           Game Over! You hit a mine!
         </div>
       )}
-      <button
-        className="mt-8 bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
+      <div className="my-5 w-full flex items-center justify-center gap-5">
+      <Button
+        
         onClick={handleReset}
       >
         Reset
-      </button>
-     
+      </Button>
+
+      <Button
+        variant="secondary"
+        onClick={()=>{
+          handleReset() ;
+          setModalOpen(true)}}
+      >
+        Restart 
+      </Button>
+      </div>
     </div>
   );
 }
-
-
-

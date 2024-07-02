@@ -246,7 +246,7 @@ export default function Mines() {
   const [totalgames, setTotalgames] = useState([]);
   const [bestScore, setBestScore] = useState({s:0,m:0});
   const user = useUserStore.getState().user;
-  useEffect(() => {
+  useEffect(() => { 
     getMines({
       createdBy: user.id,
     })
